@@ -31,6 +31,7 @@ const server = new ApolloServer({
     Publish,
     BooksResult,
   },
+  persistedQueries: false,
 });
 
 // const app = express();
