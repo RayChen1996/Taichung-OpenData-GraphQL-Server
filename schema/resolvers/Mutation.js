@@ -36,6 +36,8 @@ exports.Mutation = {
       publishId: args.input.publishId,
       authorId: args.input.authorId,
       ISBN: args.input.ISBN,
+      position: "",
+      haveImage: "",
     });
     return book.save();
   },
