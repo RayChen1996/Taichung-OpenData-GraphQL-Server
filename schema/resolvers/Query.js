@@ -53,4 +53,18 @@ exports.Query = {
   publish: async (parent, args) => {
     return await Publish.find({ name: { $regex: args.name } });
   },
+
+  filterBook: async (parent, args) => {
+    if (args?.publishName != undefined) {
+      console.log(args?.publishName);
+      return await Publish.find({ name: { $regex: args.publishName } });
+    }
+
+    if (args?.authorName != undefined) {
+      console.log(args.authorName);
+      return await Author.find({ name: { $regex: args.authorName } });
+    }
+
+    return [];
+  },
 };

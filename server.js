@@ -5,6 +5,7 @@ const { Author } = require("./schema/resolvers/Author");
 const { Book } = require("./schema/resolvers/Book");
 const { Publish } = require("./schema/resolvers/Publish");
 const { BooksResult } = require("./schema/resolvers/BooksResult");
+const { FilterBook } = require("./schema/resolvers/FilterBook");
 
 const typeDefs = require("./schema/type");
 const mongoose = require("mongoose");
@@ -29,9 +30,11 @@ const server = new ApolloServer({
     Author,
     Book,
     Publish,
+    FilterBook,
     BooksResult,
   },
   persistedQueries: false,
+  playground: true,
 });
 
 // const app = express();

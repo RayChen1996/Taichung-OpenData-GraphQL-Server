@@ -17,6 +17,12 @@ const type = gql`
     name: String
   }
 
+  input UpdateBookInput {
+    name: String!
+    position: String!
+    ISBN: String!
+  }
+
   type Publish {
     id: ID!
     name: String!
@@ -29,6 +35,11 @@ const type = gql`
     books: [Book]
   }
 
+  type FilterBook {
+    id: ID!
+    books: [Book!]
+  }
+
   type AuthorAndPublish {
     authorName: String
     publishName: String
@@ -37,6 +48,7 @@ const type = gql`
   type Book {
     id: ID!
     name: String!
+    ISBN: String!
     publishId: String!
     authorId: String!
     author: [Author!]
@@ -55,13 +67,14 @@ const type = gql`
     searchBook(ISBN: String!): Boolean
     publishs(filter: FilterInput): [Publish!]
     publish(name: String!): [Publish!]
+    filterBook(publishName: String, authorName: String): [FilterBook]
   }
 
   type Mutation {
     createAuthor(input: CreateAuthorInput!): Author
     createBook(input: BookInput!): Book
     createPublish(input: String!): Publish
-    updateBook(input: String!): Book
+    updateBook(input: UpdateBookInput): Book
   }
 
   type BooksSuccessResult {

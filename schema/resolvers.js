@@ -29,6 +29,7 @@ const resolvers = {
     },
 
     publish: async (parent, args) => {
+      conosle.log(parent);
       return await Publish.find({ name: { $regex: args.name } });
     },
   },

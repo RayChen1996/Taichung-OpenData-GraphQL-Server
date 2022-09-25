@@ -40,11 +40,23 @@ exports.Mutation = {
     return book.save();
   },
 
+  // updateBook: async (parent, args) => {
+  //   await Book.updateOne(
+  //     { name: args.input },
+  //     { $set: { publish: "6191de684c9eef964dd8fb13" } }
+  //   );
+  //   return await Book.findOne({ name: args.input });
+  // },
   updateBook: async (parent, args) => {
+    console.log(args);
     await Book.updateOne(
-      { name: args.input },
-      { $set: { publish: "6191de684c9eef964dd8fb13" } }
+      { isbn: args.input.ISBN },
+      {
+        name: args.input.name,
+        position: args.input.position,
+      }
     );
-    return await Book.findOne({ name: args.input });
+
+    return await Book.findOne({ ISBN: args.input.ISBN });
   },
 };
