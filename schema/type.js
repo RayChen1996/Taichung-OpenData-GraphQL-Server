@@ -15,6 +15,8 @@ const type = gql`
 
   input FilterInput {
     name: String
+    start: Int
+    end: Int
   }
 
   input UpdateBookInput {

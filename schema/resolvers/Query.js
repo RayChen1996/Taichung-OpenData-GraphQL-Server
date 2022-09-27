@@ -10,7 +10,17 @@ exports.Query = {
       return { books: Books };
     }
 
+    if (filter?.end != "") {
+      console.log(filter);
+      Books = await Book.find({})
+        .sort({ createAt: -1 })
+        .skip(filter.start)
+        .limit(filter.end);
+      return { books: Books };
+    }
+
     Books = await Book.find({}).sort({ createAt: -1 });
+
     if (Books) return { books: Books };
 
     return { message: "Error happen!!!" };
