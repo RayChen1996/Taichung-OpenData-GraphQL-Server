@@ -121,6 +121,6 @@ const server = new ApolloServer({
 //   console.log(`Express Server started on port ${port}`);
 // });
 
-// server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-//   console.log(`Server is ${url}`);
-// });
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`Server is ${url}`);
+});
