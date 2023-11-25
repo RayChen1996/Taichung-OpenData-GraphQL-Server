@@ -1,4 +1,4 @@
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer, gql } = require("apollo-server");
 const { Query } = require("./schema/resolvers/Query");
 const { Mutation } = require("./schema/resolvers/Mutation");
 const { Author } = require("./schema/resolvers/Author");
