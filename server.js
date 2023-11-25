@@ -10,17 +10,18 @@ const mongoose = require("mongoose");
 // const typeDefs = require("./schema/type");
 // const mongoose = require("mongoose");
 require("dotenv").config();
-// const uri = process.env.ATLAS_URI;
-// mongoose.connect(uri, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
+const uri =
+  "mongodb+srv://ray10315332:GayqbQeJq5Jxh3em@cluster0.pberq7k.mongodb.net/";
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // const connection = mongoose.connection;
 
-// connection.once("open", () => {
-//   console.log("mogoose connect!!!");
-// });
+connection.once("open", () => {
+  console.log("mogoose connect!!!");
+});
 
 // 定义GraphQL Schema
 const typeDefs = gql`
