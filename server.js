@@ -22,7 +22,10 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("mogoose connect!!!");
 });
-
+const User = mongoose.model('User', {
+  email: String,
+  password: String,
+});
 // 定义GraphQL Schema
 const typeDefs = gql`
   type Todo {
@@ -31,21 +34,40 @@ const typeDefs = gql`
     completed: Boolean!
   }
 
-  type Query {
-    todos: [Todo]
-    todo(id: ID!): Todo
-  }
+ 
 
-  type Mutation {
-    addTodo(task: String!): Todo
+ 
+  type User {
+      id: ID!
+      email: String!
+    }
+
+    type AuthPayload {
+      token: String!
+    }
+
+    type Query {
+      users: [User]
+      todos: [Todo]
+    todo(id: ID!): Todo
+    }
+
+    type Mutation {
+      register(email: String!, password: String!): AuthPayload
+      login(email: String!, password: String!): AuthPayload
+      addTodo(task: String!): Todo
     updateTodo(id: ID!, task: String!, completed: Boolean!): Todo
     deleteTodo(id: ID!): Todo
-  }
+    }
+
+
+
 `;
 
 // 4. 提供解析函数
 const resolvers = {
   Query: {
+    users: () => User.find(),
     todos: async () => {
       const todos = await Todo.find();
       return todos;
@@ -56,6 +78,38 @@ const resolvers = {
     },
   },
   Mutation: {
+    register: async (_, { email, password }) => {
+      const existingUser = await User.findOne({ email });
+
+      if (existingUser) {
+        throw new Error('User already exists');
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const user = new User({ email, password: hashedPassword });
+      await user.save();
+
+      const token = jwt.sign({ userId: user.id }, 'your_secret_key', { expiresIn: '7d' });
+
+      return { token };
+    },
+    login: async (_, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new Error('Invalid login credentials');
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (!passwordMatch) {
+        throw new Error('Invalid login credentials');
+      }
+
+      const token = jwt.sign({ userId: user.id }, 'your_secret_key', { expiresIn: '7d' });
+
+      return { token };
+    },
     addTodo: async (_, { task }) => {
       const todo = new Todo({ task, completed: false });
       await todo.save();
